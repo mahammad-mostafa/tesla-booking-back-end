@@ -9,7 +9,8 @@ class Api::V1::Users::SessionsController < Devise::SessionsController
       respond_with(user, token: generate_jwt_token(user))
     else
       render json: {
-        status: { code: 401, message: 'Invalid email or password' }
+        status: { code: 401, message: 'Error: Invalid email or password',
+        data:{} }
       }, status: :unauthorized
     end
   end
@@ -24,27 +25,37 @@ class Api::V1::Users::SessionsController < Devise::SessionsController
   def respond_with(resource, options = {})
     token = options[:token]
     render json: {
-      status: { code: 200, message: 'User signed in successfully',
+      status: { code: 200, message: 'Success: User signed in successfully',
                 data: { email: resource.email, user_name: resource.user_name, token: } }
     }, status: :ok
   end
 
   def respond_to_on_destroy
+    begin
     jwt_token = request.headers['Authorization'].to_s.split.last
     jwt_payload = JWT.decode(jwt_token, Rails.application.credentials.fetch(:secret_key_base)).first
     current_user = User.find(jwt_payload['sub'])
-
     if current_user
       sign_out(current_user)
       render json: {
         status: 200,
-        message: 'Signed out successfully'
+        message: 'Success: Signed out successfully',
+        data:{}
       }, status: :ok
     else
       render json: {
         status: 401,
-        message: 'User has no active session'
+        message: 'Error: User has no active session',
+        data:{}
       }, status: :unauthorized
     end
+    rescue JWT::DecodeError => e
+      render json: {
+        status: 401,
+        message: 'Error: Invalid token ' + e.message,
+        data: {}
+      }, status: :unauthorized
+    end
+    
   end
 end
