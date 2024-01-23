@@ -3,17 +3,21 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   private
 
+  def sign_up_params
+    params.require(:user).permit(:user_name, :email, :password)
+  end
+
   def respond_with(resource, _options = {})
     if resource.persisted?
       render json: {
-        status: { code: 200, message: 'Signed up successfully',
-                  data: resource }
+        status: { code: 200, message: 'Success: Signed up successfully',
+                  data: { email: resource.email, user_name: resource.user_name } }
       }, status: :ok
-    else
+    else  
       render json: {
-        status: { message: 'User could not be created successfully',
-                  errors: resource.errors.full_messages }, status: :unprocessable_entity
-      }
+        status: { code: 422, message: 'Error: '+ resource.errors.full_messages.join(', '), 
+        data:{ } }
+      }, status: :unprocessable_entity
     end
   end
 end
