@@ -1,4 +1,4 @@
-class Users::RegistrationsController < Devise::RegistrationsController
+class Api::V1::Users::RegistrationsController < Devise::RegistrationsController
   respond_to :json
 
   private
@@ -9,9 +9,10 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   def respond_with(resource, _options = {})
     if resource.persisted?
+      token = JWT.encode({ sub: resource.id }, Rails.application.credentials.fetch(:secret_key_base))
       render json: {
         status: { code: 200, message: 'Success: Signed up successfully',
-                  data: { email: resource.email, user_name: resource.user_name } }
+                  data: { email: resource.email, user_name: resource.user_name, token: token } }
       }, status: :ok
     else  
       render json: {
