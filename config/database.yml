@@ -22,6 +22,8 @@ default: &default
 development:
   <<: *default
   database: tesla_booking_back_end_development
+  username: postgres
+  password: fatema
 
   # The specified database role being used to connect to PostgreSQL.
   # To create additional roles in PostgreSQL see `$ createuser --help`.
