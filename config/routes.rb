@@ -4,7 +4,8 @@ Rails.application.routes.draw do
       devise_for :users, controllers: {
         sessions: 'api/v1/users/sessions',
         registrations: 'api/v1/users/registrations'
-}
+      }
+      resources :cars, only: [:create, :index, :show, :destroy]
 end
 end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
