@@ -6,6 +6,7 @@ Rails.application.routes.draw do
         registrations: 'api/v1/users/registrations'
       }
       resources :cars, only: [:create, :index, :show, :destroy]
+      resources :reservations, only: [:index, :create]
 end
 end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
