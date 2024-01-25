@@ -17,7 +17,7 @@ class Api::V1::CarsController < ApplicationController
     @cars = Car.all
     render json: {
       status: { code: 200, message: 'Success: cars data retrieved successfully',
-                data: cars_as_json(@cars)  }
+                data: cars_as_json(@cars) }
     }, status: :ok
   end
 
@@ -25,7 +25,7 @@ class Api::V1::CarsController < ApplicationController
   def show
     render json: {
       status: { code: 200, message: 'Success: car data retrieved successfully',
-                data: car_as_json(@car)  }
+                data: car_as_json(@car) }
     }, status: :ok
   end
 
