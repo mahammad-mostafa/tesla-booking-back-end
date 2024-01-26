@@ -1,6 +1,5 @@
 class Api::V1::CarsController < ApplicationController
-  before_action :set_car, only: %i[show destroy]
-
+  include JwtHelper
   # POST /api/v1/cars
   def create
     @car = current_user.cars.new(car_params)
@@ -23,10 +22,32 @@ class Api::V1::CarsController < ApplicationController
 
   # GET /api/v1/cars/1
   def show
+    @car = Car.find(params[:id])
     render json: {
       status: { code: 200, message: 'Success: car data retrieved successfully',
                 data: car_as_json(@car) }
     }, status: :ok
+  rescue ActiveRecord::RecordNotFound
+    render json: {
+      status: { code: 404, message: 'Error: Car not found',
+                data: {} }
+    }, status: :not_found
+  end
+
+  # GET /api/v1/cars/deleteindex/
+  def deleteindex
+    if current_user
+      user_id = current_user.id
+      @user_cars = Car.where(user_id:)
+
+      render json: {
+        status: { code: 200, message: 'Success: Cars for user retrieved successfully', data: cars_as_json(@user_cars) }
+      }, status: :ok
+    else
+      render json: {
+        status: { code: 404, message: 'Error: Invalid Token', data: {} }
+      }, status: :not_found
+    end
   end
 
   # DELETE /api/v1/cars/1
@@ -36,10 +57,6 @@ class Api::V1::CarsController < ApplicationController
   end
 
   private
-
-  def set_car
-    @car = Car.find(params[:id])
-  end
 
   def car_params
     params.require(:car).permit(
