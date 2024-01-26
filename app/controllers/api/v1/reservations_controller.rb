@@ -65,11 +65,11 @@ class Api::V1::ReservationsController < ApplicationController
   def set_car
     @car = Car.find_by(id: params[:reservation][:car_id])
 
-  unless @car
+    return if @car
+
     render json: {
       status: { code: 404, message: 'Error: Car not found' }
     }, status: :not_found
-  end
   end
 
   def reservation_params
