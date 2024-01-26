@@ -7,7 +7,7 @@ Rails.application.routes.draw do
       }
       resources :cars, only: [:create, :index, :show, :destroy] do
         collection do
-          get 'deleteindex'
+          get 'user_cars'
         end
       end
 end
