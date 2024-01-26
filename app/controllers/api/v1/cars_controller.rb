@@ -44,9 +44,9 @@ class Api::V1::CarsController < ApplicationController
           status: { code: 200, message: 'Success: No Car Available For this User', data: {} }
         }, status: :ok
       else
-      render json: {
-        status: { code: 200, message: 'Success: Cars for user retrieved successfully', data: cars_as_json(@user_cars) }
-      }, status: :ok
+        render json: {
+          status: { code: 200, message: 'Success: Cars for user retrieved successfully', data: cars_as_json(@user_cars) }
+        }, status: :ok
       end
     else
       render json: {
@@ -57,28 +57,25 @@ class Api::V1::CarsController < ApplicationController
 
   # DELETE /api/v1/cars/1
   def destroy
-    begin
     @car = Car.find(params[:id])
-      if @car.user_id == current_user.id
-        @car.destroy
-        if @car.destroyed?
-          render json: { status: { code: 200, message: 'Success: Car deleted successfully', data: {} } 
-          }, status: :ok
-        else
+    if @car.user_id == current_user.id
+      @car.destroy
+      if @car.destroyed?
+        render json: { status: { code: 200, message: 'Success: Car deleted successfully', data: {} } }, status: :ok
+      else
         render json: {
           status: { code: 404, message: 'Error: Car Not Deleted', data: {} }
         }, status: :unprocessable_entity
-        end
-      else 
-        render json: {
-        status: { code: 401, message: 'Error: Invalid Token', data: {} }
-       }, status: :unauthorized
       end
-    rescue ActiveRecord::RecordNotFound
+    else
       render json: {
-      status: { code: 404, message: 'Error: Car Not Found', data: {} }
-      }, status: :not_found
+        status: { code: 401, message: 'Error: Invalid Token', data: {} }
+      }, status: :unauthorized
     end
+  rescue ActiveRecord::RecordNotFound
+    render json: {
+      status: { code: 404, message: 'Error: Car Not Found', data: {} }
+    }, status: :not_found
   end
 
   private
