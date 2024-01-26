@@ -6,5 +6,5 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable,
          :jwt_authenticatable, jwt_revocation_strategy: self
   has_many :reservations
-  has_many :cars
+  has_many :cars, dependent: :destroy
 end
