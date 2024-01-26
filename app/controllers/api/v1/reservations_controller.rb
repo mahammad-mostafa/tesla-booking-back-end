@@ -55,7 +55,8 @@ class Api::V1::ReservationsController < ApplicationController
         }, status: :created
       else
         render json: {
-          status: { code: 422, message: 'Error: unable to create reservation', errors: @reservation.errors.full_messages }
+          status: { code: 422, message: 'Error: unable to create reservation',
+                    errors: @reservation.errors.full_messages }
         }, status: :unprocessable_entity
       end
     else
