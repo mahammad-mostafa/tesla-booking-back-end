@@ -40,22 +40,27 @@ class Api::V1::ReservationsController < ApplicationController
 
   def create
     reservation_params = params.require(:reservation).permit(:car_id, :location, :date)
+    if current_user
+      # Use the current_user method to retrieve the user based on the JWT token
+      user = current_user
 
-    # Use the current_user method to retrieve the user based on the JWT token
-    user = current_user
+      # Create the reservation
+      @reservation = Reservation.new(
+        reservation_params.merge(user_id: user.id)
+      )
 
-    # Create the reservation
-    @reservation = Reservation.new(
-      reservation_params.merge(user_id: user.id)
-    )
-
-    if @reservation.save
-      render json: {
-        status: { code: 200, message: 'Success: reservation created successfully', data: {} }
-      }, status: :created
+      if @reservation.save
+        render json: {
+          status: { code: 200, message: 'Success: reservation created successfully', data: {} }
+        }, status: :created
+      else
+        render json: {
+          status: { code: 422, message: 'Error: unable to create reservation', errors: @reservation.errors.full_messages }
+        }, status: :unprocessable_entity
+      end
     else
       render json: {
-        status: { code: 422, message: 'Error: unable to create reservation', errors: @reservation.errors.full_messages }
+        status: { code: 400, message: 'Error: Invalid token', data: {} }
       }, status: :unprocessable_entity
     end
   end
