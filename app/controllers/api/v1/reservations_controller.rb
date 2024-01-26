@@ -1,24 +1,92 @@
 class Api::V1::ReservationsController < ApplicationController
+  include JwtHelper
+  before_action :set_car, only: [:create]
+
+  def show
+    @reservation = current_user.reservations.find_by(id: params[:id])
+
+    if @reservation
+      render json: {
+        status: { code: 200, message: 'Success: Reservation data retrieved successfully',
+                  data: reservation_as_json(@reservation) }
+      }, status: :ok
+    else
+      render json: {
+        status: { code: 404, message: 'Error: Reservation not found', data: {} }
+      }, status: :not_found
+    end
+  end
+
   def index
-    @reservations = current_user.reservations
-    render json: @reservations
+    if current_user
+      @reservations = current_user.reservations
+
+      if @reservations.empty?
+        render json: {
+          status: { code: 200, message: 'Success: No reservations found', data: {} }
+        }, status: :ok
+      else
+        render json: {
+          status: { code: 200, message: 'Success: Reservations data retrieved successfully',
+                    data: reservations_as_json(@reservations) }
+        }, status: :ok
+      end
+    else
+      render json: {
+        status: { code: 400, message: 'Error: Invalid token', data: {} }
+      }, status: :ok
+    end
   end
 
   def create
-    @car = Car.find(params[:car_id])
-    @reservation = @car.reservations.new(reservation_params)
-    @reservation.user = current_user
+    reservation_params = params.require(:reservation).permit(:car_id, :location, :date)
+
+    # Use the current_user method to retrieve the user based on the JWT token
+    user = current_user
+
+    # Create the reservation
+    @reservation = Reservation.new(
+      reservation_params.merge(user_id: user.id)
+    )
 
     if @reservation.save
-      render json: @reservation, status: :created
+      render json: {
+        status: { code: 200, message: 'Success: reservation created successfully', data: {} }
+      }, status: :created
     else
-      render json: { errors: @reservation.errors.full_messages }, status: :unprocessable_entity
+      render json: {
+        status: { code: 422, message: 'Error: unable to create reservation', errors: @reservation.errors.full_messages }
+      }, status: :unprocessable_entity
     end
   end
 
   private
 
+  def set_car
+    @car = Car.find_by(id: params[:reservation][:car_id])
+
+  unless @car
+    render json: {
+      status: { code: 404, message: 'Error: Car not found' }
+    }, status: :not_found
+  end
+  end
+
   def reservation_params
     params.require(:reservation).permit(:date, :location)
+  end
+
+  def reservation_as_json(reservation)
+    {
+      id: reservation.id,
+      user_id: reservation.user_id,
+      car_id: reservation.car_id,
+      date: reservation.date,
+      location: reservation.location
+    }
+  end
+
+  def reservations_as_json(reservations)
+    reservations.map { |reservation| reservation_as_json(reservation) }
   end
 end
