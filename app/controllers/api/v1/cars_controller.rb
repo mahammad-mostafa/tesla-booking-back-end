@@ -5,19 +5,26 @@ class Api::V1::CarsController < ApplicationController
     @car = current_user.cars.new(car_params)
 
     if @car.save
-      render json: @car, status: :created
+      render json: { status: { code: 200, message: 'Success: Car Created Successfully', data: {} } 
+      }, status: :created
     else
-      render json: @car.errors, status: :unprocessable_entity
+      render json: { status: { code: 404, message: 'Error: Can not create car' + @car.errors , data: {} } 
+      }, status: :unprocessable_entity
     end
   end
 
   # GET /api/v1/cars
   def index
     @cars = Car.all
+    if @cars.empty?
+    render json: { status: { code: 200, message: 'Success: No Car Available', data: {} } 
+    }, status: :ok
+    else
     render json: {
       status: { code: 200, message: 'Success: cars data retrieved successfully',
                 data: cars_as_json(@cars) }
     }, status: :ok
+    end
   end
 
   # GET /api/v1/cars/1
@@ -82,7 +89,7 @@ class Api::V1::CarsController < ApplicationController
 
   def car_params
     params.require(:car).permit(
-      :model_name,
+      :car_model_name,
       :image,
       :description,
       :rental_price,
@@ -94,7 +101,7 @@ class Api::V1::CarsController < ApplicationController
     {
       id: car.id,
       user_id: car.user_id,
-      model_name: car.model_name,
+      car_model_name: car.car_model_name,
       image: car.image,
       description: car.description,
       rental_price: car.rental_price,
