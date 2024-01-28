@@ -5,7 +5,8 @@ class Api::V1::CarsController < ApplicationController
     @car = current_user.cars.new(car_params)
 
     if @car.save
-      render json: { status: { code: 200, message: 'Success: Car Created Successfully', data: {} } }, status: :created
+      render json: { status: { code: 200, message: 'Success: Car Created Successfully',
+                               data: car_as_json(@car) } }, status: :created
     else
       render json: { status: { code: 404, message: "Error: Can not create car #{@car.errors}", data: {} } },
              status: :unprocessable_entity
