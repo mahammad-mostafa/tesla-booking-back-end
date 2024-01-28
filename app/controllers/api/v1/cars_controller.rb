@@ -16,9 +16,15 @@ class Api::V1::CarsController < ApplicationController
   # GET /api/v1/cars
   def index
     @cars = Car.all
+    
     # filter all cars owned by user == false
     # filter all cars owned by user == true and user_id == current_user.id
-    # concatenate and render the json
+    if current_user
+      @cars = @cars.select { |car| car.owned_by_user == false || car.user_id == current_user.id }
+    else
+      @cars = @cars.select { |car| car.owned_by_user == false }
+      # render the json
+    end
     if @cars.empty?
       render json: { status: { code: 200, message: 'Success: No Car Available', data: {} } }, status: :ok
     else
@@ -41,28 +47,6 @@ class Api::V1::CarsController < ApplicationController
       status: { code: 404, message: 'Error: Car not found',
                 data: {} }
     }, status: :not_found
-  end
-
-  # GET /api/v1/cars/usercars/
-  def user_cars
-    if current_user
-      user_id = current_user.id
-      @user_cars = Car.where(user_id:)
-      if @user_cars.empty?
-        render json: {
-          status: { code: 200, message: 'Success: No Car Available For this User', data: {} }
-        }, status: :ok
-      else
-        render json: {
-          status: { code: 200, message: 'Success: Cars for user retrieved successfully',
-                    data: cars_as_json(@user_cars) }
-        }, status: :ok
-      end
-    else
-      render json: {
-        status: { code: 404, message: 'Error: Invalid Token', data: {} }
-      }, status: :not_found
-    end
   end
 
   # DELETE /api/v1/cars/1
@@ -96,9 +80,8 @@ class Api::V1::CarsController < ApplicationController
       :image,
       :description,
       :rental_price,
-      :owned_by_user,
       performance_details_attributes: [:detail]
-    )
+    ).merge(owned_by_user: true)
   end
 
   def car_as_json(car)
