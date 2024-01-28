@@ -54,6 +54,11 @@ class Api::V1::CarsController < ApplicationController
 
   # DELETE /api/v1/cars/1
   def destroy
+    if !current_user
+      render json: {
+        status: { code: 401, message: 'Error: Invalid Token', data: {} }
+      }, status: :unauthorized
+    else
     @car = Car.find(params[:id])
     if @car.user_id == current_user.id
       @car.destroy
@@ -66,15 +71,15 @@ class Api::V1::CarsController < ApplicationController
       end
     else
       render json: {
-        status: { code: 401, message: 'Error: Invalid Token', data: {} }
+        status: { code: 401, message: 'Error: Invalid User', data: {} }
       }, status: :unauthorized
     end
+  end
   rescue ActiveRecord::RecordNotFound
     render json: {
       status: { code: 404, message: 'Error: Car Not Found', data: {} }
     }, status: :not_found
-  end
-
+end
   private
 
   def car_params
