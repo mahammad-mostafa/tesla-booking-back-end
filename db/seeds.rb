@@ -15,6 +15,11 @@ User.destroy_all
 
 # Create a user
 user = User.create!(
+  # add faker gem to generate random email and password for prod
+  # email: Faker::Internet.email,
+  # password: Faker::Internet.password
+  
+  # add static email and password for dev
   email: 'user@example.com',
   password: 'password'
 )
@@ -28,6 +33,7 @@ dummy_json = [
     "image": "https://digitalassets.tesla.com/tesla-contents/image/upload/f_auto,q_auto/Mega-Menu-Vehicles-Model-S.png",
     "description": "Model S Plaid has the quickest acceleration of any vehicle in production...",
     "rental_price": "150",
+    "owned_by_user": false,
     "performance_details": [
       "359 mi Range (EPA est.)",
       "1.99 s 0-60 mph*",
@@ -42,6 +48,7 @@ dummy_json = [
     "image": "https://digitalassets.tesla.com/tesla-contents/image/upload/f_auto,q_auto/Mega-Menu-Vehicles-Model-3-LHD.png",
     "description": "Model 3 benefits from the same features that make our other vehicles so safe...",
     "rental_price": 120,
+    "owned_by_user": false,
     "performance_details": [
       "15 min Recharge up to 175 miles†",
       "341 mi Range (EPA est.)",
@@ -55,6 +62,7 @@ dummy_json = [
     "image": "https://digitalassets.tesla.com/tesla-contents/image/upload/f_auto,q_auto/Mega-Menu-Vehicles-Model-X.png",
     "description": "With the most power and quickest acceleration of any SUV...",
     "rental_price": 160,
+    "owned_by_user": false,
     "performance_details": [
       "326 mi Range (EPA est.)",
       "2.5 s 0-60 mph*",
@@ -69,6 +77,7 @@ dummy_json = [
     "image": "https://digitalassets.tesla.com/tesla-contents/image/upload/f_auto,q_auto/Mega-Menu-Vehicles-Model-Y.png",
     "description": "Plenty of range for every kind of drive...",
     "rental_price": 140,
+    "owned_by_user": false,
     "performance_details": [
       "310 mi Range (EPA est.)",
       "76 cu ft Cargo Space",
@@ -83,6 +92,7 @@ dummy_json = [
     "image": "https://digitalassets.tesla.com/tesla-contents/image/upload/f_auto,q_auto/Mega-Menu-Vehicles-Cybertruck-1x.png",
     "description": "Haul everything you need with 2,500 pounds payload and 11,000 pounds towing capacity...",
     "rental_price": 180,
+    "owned_by_user": false,
     "performance_details": [
       "340 mi Est. Range",
       "11,000 lbs Towing Capacity",
