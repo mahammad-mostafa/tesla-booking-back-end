@@ -5,11 +5,10 @@ class Api::V1::CarsController < ApplicationController
     @car = current_user.cars.new(car_params)
 
     if @car.save
-      render json: { status: { code: 200, message: 'Success: Car Created Successfully', data: {} } 
-      }, status: :created
+      render json: { status: { code: 200, message: 'Success: Car Created Successfully', data: {} } }, status: :created
     else
-      render json: { status: { code: 404, message: 'Error: Can not create car' + @car.errors , data: {} } 
-      }, status: :unprocessable_entity
+      render json: { status: { code: 404, message: "Error: Can not create car #{@car.errors}", data: {} } },
+             status: :unprocessable_entity
     end
   end
 
@@ -20,13 +19,12 @@ class Api::V1::CarsController < ApplicationController
     # filter all cars owned by user == true and user_id == current_user.id
     # concatenate and render the json
     if @cars.empty?
-    render json: { status: { code: 200, message: 'Success: No Car Available', data: {} } 
-    }, status: :ok
+      render json: { status: { code: 200, message: 'Success: No Car Available', data: {} } }, status: :ok
     else
-    render json: {
-      status: { code: 200, message: 'Success: cars data retrieved successfully',
-                data: cars_as_json(@cars) }
-    }, status: :ok
+      render json: {
+        status: { code: 200, message: 'Success: cars data retrieved successfully',
+                  data: cars_as_json(@cars) }
+      }, status: :ok
     end
   end
 
@@ -55,7 +53,8 @@ class Api::V1::CarsController < ApplicationController
         }, status: :ok
       else
         render json: {
-          status: { code: 200, message: 'Success: Cars for user retrieved successfully', data: cars_as_json(@user_cars) }
+          status: { code: 200, message: 'Success: Cars for user retrieved successfully',
+                    data: cars_as_json(@user_cars) }
         }, status: :ok
       end
     else
