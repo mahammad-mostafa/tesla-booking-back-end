@@ -3,15 +3,15 @@ class Api::V1::CarsController < ApplicationController
   # POST /api/v1/cars
   def create
     if current_user
-    @car = current_user.cars.new(car_params)
+      @car = current_user.cars.new(car_params)
 
-    if @car.save
-      render json: { status: { code: 200, message: 'Success: Car Created Successfully',
-                               data: car_as_json(@car) } }, status: :created
-    else
-      render json: { status: { code: 404, message: "Error: Can not create car #{@car.errors}", data: {} } },
-             status: :unprocessable_entity
-    end
+      if @car.save
+        render json: { status: { code: 200, message: 'Success: Car Created Successfully',
+                                 data: car_as_json(@car) } }, status: :created
+      else
+        render json: { status: { code: 404, message: "Error: Can not create car #{@car.errors}", data: {} } },
+               status: :unprocessable_entity
+      end
     else
       render json: { status: { code: 401, message: 'Error: Invalid Token', data: {} } }, status: :unauthorized
     end
