@@ -54,15 +54,21 @@ class Api::V1::CarsController < ApplicationController
 
   # DELETE /api/v1/cars/1
   def destroy
-    @car = Car.find(params[:id])
-    if @car.user_id == current_user.id
-      @car.destroy
-      if @car.destroyed?
-        render json: { status: { code: 200, message: 'Success: Car deleted successfully', data: {} } }, status: :ok
+    if current_user
+      @car = Car.find(params[:id])
+      if @car.user_id == current_user.id
+        @car.destroy
+        if @car.destroyed?
+          render json: { status: { code: 200, message: 'Success: Car deleted successfully', data: {} } }, status: :ok
+        else
+          render json: {
+            status: { code: 404, message: 'Error: Car Not Deleted', data: {} }
+          }, status: :unprocessable_entity
+        end
       else
         render json: {
-          status: { code: 404, message: 'Error: Car Not Deleted', data: {} }
-        }, status: :unprocessable_entity
+          status: { code: 401, message: 'Error: User Does not have permission to delete this car', data: {} }
+        }, status: :unauthorized
       end
     else
       render json: {
