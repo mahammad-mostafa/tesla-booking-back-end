@@ -16,6 +16,9 @@ class Api::V1::CarsController < ApplicationController
   # GET /api/v1/cars
   def index
     @cars = Car.all
+    # filter all cars owned by user == false
+    # filter all cars owned by user == true and user_id == current_user.id
+    # concatenate and render the json
     if @cars.empty?
     render json: { status: { code: 200, message: 'Success: No Car Available', data: {} } 
     }, status: :ok
@@ -93,6 +96,7 @@ class Api::V1::CarsController < ApplicationController
       :image,
       :description,
       :rental_price,
+      :owned_by_user,
       performance_details_attributes: [:detail]
     )
   end
@@ -105,6 +109,7 @@ class Api::V1::CarsController < ApplicationController
       image: car.image,
       description: car.description,
       rental_price: car.rental_price,
+      owned_by_user: car.owned_by_user,
       performance_details: car.performance_details.pluck(:detail)
     }
   end
