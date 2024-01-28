@@ -5,11 +5,8 @@ Rails.application.routes.draw do
         sessions: 'api/v1/users/sessions',
         registrations: 'api/v1/users/registrations'
       }
-      resources :cars, only: [:create, :index, :show, :destroy] do
-        collection do
-          get 'user_cars'
-        end
-      end
+      resources :cars, only: [:create, :index, :show, :destroy]
+      resources :reservations, only: [:index, :create, :show]
 end
 end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
