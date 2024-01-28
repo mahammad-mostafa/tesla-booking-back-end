@@ -1,4 +1,5 @@
 class Api::V1::Users::SessionsController < Devise::SessionsController
+  include JwtHelper
   respond_to :json
 
   def create
@@ -31,9 +32,6 @@ class Api::V1::Users::SessionsController < Devise::SessionsController
   end
 
   def respond_to_on_destroy
-    jwt_token = request.headers['Authorization'].to_s.split.last
-    jwt_payload = JWT.decode(jwt_token, Rails.application.credentials.fetch(:secret_key_base)).first
-    current_user = User.find(jwt_payload['sub'])
     if current_user
       sign_out(current_user)
       render json: {
@@ -48,11 +46,5 @@ class Api::V1::Users::SessionsController < Devise::SessionsController
         data: {}
       }, status: :unauthorized
     end
-  rescue JWT::DecodeError => e
-    render json: {
-      status: 401,
-      message: "Error: Invalid token #{e.message}",
-      data: {}
-    }, status: :unauthorized
   end
 end
