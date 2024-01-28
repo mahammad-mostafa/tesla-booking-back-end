@@ -16,15 +16,14 @@ class Api::V1::CarsController < ApplicationController
   # GET /api/v1/cars
   def index
     @cars = Car.all
-    
     # filter all cars owned by user == false
     # filter all cars owned by user == true and user_id == current_user.id
-    if current_user
-      @cars = @cars.select { |car| car.owned_by_user == false || car.user_id == current_user.id }
-    else
-      @cars = @cars.select { |car| car.owned_by_user == false }
-      # render the json
-    end
+    @cars = if current_user
+              @cars.select { |car| car.owned_by_user == false || car.user_id == current_user.id }
+            else
+              @cars.select { |car| car.owned_by_user == false }
+              # render the json
+            end
     if @cars.empty?
       render json: { status: { code: 200, message: 'Success: No Car Available', data: {} } }, status: :ok
     else
