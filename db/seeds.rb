@@ -107,7 +107,8 @@ dummy_json.each do |car_data|
     car_model_name: car_data[:model_name],
     image: car_data[:image],
     description: car_data[:description],
-    rental_price: car_data[:rental_price]
+    rental_price: car_data[:rental_price],
+    owned_by_user: car_data[:owned_by_user]
   )
 
   # Create three PerformanceDetail records for each car
