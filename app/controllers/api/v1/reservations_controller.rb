@@ -51,7 +51,8 @@ class Api::V1::ReservationsController < ApplicationController
 
       if @reservation.save
         render json: {
-          status: { code: 200, message: 'Success: reservation created successfully', data: {} }
+          status: { code: 200, message: 'Success: reservation created successfully',
+                    data: reservation_as_json(@reservation) }
         }, status: :created
       else
         render json: {
