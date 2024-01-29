@@ -1,10 +1,6 @@
 module JwtHelper
   extend ActiveSupport::Concern
 
-  included do
-      helper_method :decode_jwt
-  end
-
   def current_user
     @current_user ||= decode_jwt
   end
