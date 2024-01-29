@@ -22,8 +22,8 @@ default: &default
 development:
   <<: *default
   database: tesla_booking_back_end_development
-  username: postgres
-  password: fatema
+  # username: postgres
+  # password: fatema
 
   # The specified database role being used to connect to PostgreSQL.
   # To create additional roles in PostgreSQL see `$ createuser --help`.
@@ -81,6 +81,5 @@ test:
 #
 production:
   <<: *default
-  database: tesla_booking_back_end_production
-  username: tesla_booking_back_end
-  password: <%= ENV["TESLA_BOOKING_BACK_END_DATABASE_PASSWORD"] %>
+  url: <%= ENV['DATABASE_URL'] %> 
+  
