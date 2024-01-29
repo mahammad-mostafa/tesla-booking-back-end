@@ -9,7 +9,9 @@ services:
     name: tesla_booking_api
     runtime: ruby
     plan: free
-    buildCommand: "./bin/render-build.sh"
+    buildCommand:
+      - "./bin/render-build.sh"
+      - "chmod +x ./bin/rails"
     # preDeployCommand: "./bin/rails db:migrate" # preDeployCommand only available on paid instance types
     startCommand: "./bin/rails server"
     envVars:
