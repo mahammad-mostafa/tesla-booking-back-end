@@ -3,15 +3,15 @@ class Api::V1::Users::SessionsController < Devise::SessionsController
   respond_to :json
 
   def create
-    user = User.find_for_database_authentication(email: params[:user][:email])
+    user = User.find_for_database_authentication(email: params[:email])
 
-    if user&.valid_password?(params[:user][:password])
+    if user&.valid_password?(params[:password])
       sign_in(user)
       respond_with(user, token: generate_jwt_token(user))
     else
       render json: {
-        status: { code: 401, message: 'Error: Invalid email or password',
-                  data: {} }
+        status: { code: 401, message: 'Error: Invalid email or password' },
+        data: {}
       }, status: :unauthorized
     end
   end
@@ -26,8 +26,8 @@ class Api::V1::Users::SessionsController < Devise::SessionsController
   def respond_with(resource, options = {})
     token = options[:token]
     render json: {
-      status: { code: 200, message: 'Success: User signed in successfully',
-                data: { email: resource.email, user_name: resource.user_name, token: } }
+      status: { code: 200, message: 'Success: User signed in successfully' },
+      data: { email: resource.email, userName: resource.user_name, token: }
     }, status: :ok
   end
 
@@ -35,14 +35,13 @@ class Api::V1::Users::SessionsController < Devise::SessionsController
     if current_user
       sign_out(current_user)
       render json: {
-        status: 200,
-        message: 'Success: Signed out successfully',
+        status: { code: 200, message: 'Success: Signed out successfully' },
         data: {}
       }, status: :ok
     else
       render json: {
-        status: 401,
-        message: 'Error: User has no active session',
+        status: { code: 401,
+                  message: 'Error: User has no active session' },
         data: {}
       }, status: :unauthorized
     end
