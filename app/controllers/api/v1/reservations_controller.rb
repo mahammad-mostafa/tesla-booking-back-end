@@ -82,14 +82,14 @@ class Api::V1::ReservationsController < ApplicationController
   end
 
   def reservation_params
-    params.require(:reservation).permit(:date, :location)
+    params.permit(:date, :location)
   end
 
   def reservation_as_json(reservation)
     {
       id: reservation.id,
-      user_id: reservation.user_id,
-      car_id: reservation.car_id,
+      userId: reservation.user_id,
+      carId: reservation.car_id,
       date: reservation.date,
       location: reservation.location
     }
