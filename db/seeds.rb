@@ -31,7 +31,7 @@ dummy_json = [
     "user_id": 1,
     "model_name": "Model S",
     "image": "https://digitalassets.tesla.com/tesla-contents/image/upload/f_auto,q_auto/Mega-Menu-Vehicles-Model-S.png",
-    "description": "Model S Plaid has the quickest acceleration of any vehicle in production...",
+    "description": "Model S Plaid has the quickest acceleration of any vehicle in production. Updated battery architecture for all Model S trims enables back-to-back track runs without performance degradation.",
     "rental_price": "150",
     "owned_by_user": false,
     "performance_details": [
@@ -46,7 +46,7 @@ dummy_json = [
     "user_id": 1,
     "model_name": "Model 3",
     "image": "https://digitalassets.tesla.com/tesla-contents/image/upload/f_auto,q_auto/Mega-Menu-Vehicles-Model-3-LHD.png",
-    "description": "Model 3 benefits from the same features that make our other vehicles so safe...",
+    "description": "Model 3 benefits from the same features that make our other vehicles so safe: energy-absorbing side sills, a fortified battery pack mounted low in the vehicle to reduce rollover risk and a metal body structure that can withstand many times the car’s weight. Active safety features like automatic emergency braking come standard.",
     "rental_price": 120,
     "owned_by_user": false,
     "performance_details": [
@@ -60,7 +60,7 @@ dummy_json = [
     "user_id": 1,
     "model_name": "Model X",
     "image": "https://digitalassets.tesla.com/tesla-contents/image/upload/f_auto,q_auto/Mega-Menu-Vehicles-Model-X.png",
-    "description": "With the most power and quickest acceleration of any SUV...",
+    "description": "With the most power and quickest acceleration of any SUV, Model X Plaid is the highest performing SUV ever built. Updated battery architecture enables both Long Range and Plaid configurations to complete back-to-back track runs without performance degradation.",
     "rental_price": 160,
     "owned_by_user": false,
     "performance_details": [
@@ -75,7 +75,7 @@ dummy_json = [
     "user_id": 1,
     "model_name": "Model Y",
     "image": "https://digitalassets.tesla.com/tesla-contents/image/upload/f_auto,q_auto/Mega-Menu-Vehicles-Model-Y.png",
-    "description": "Plenty of range for every kind of drive...",
+    "description": "Plenty of range for every kind of drive. From daily driving to family road trips, charging Model Y is fast, convenient and accessible anywhere there’s electricity.",
     "rental_price": 140,
     "owned_by_user": false,
     "performance_details": [
@@ -90,7 +90,7 @@ dummy_json = [
     "user_id": 1,
     "model_name": "Cybertruck",
     "image": "https://digitalassets.tesla.com/tesla-contents/image/upload/f_auto,q_auto/Mega-Menu-Vehicles-Cybertruck-1x.png",
-    "description": "Haul everything you need with 2,500 pounds payload and 11,000 pounds towing capacity...",
+    "description": "Haul everything you need with 2,500 pounds payload and 11,000 pounds towing capacity—the equivalent of an average African elephant. The super-tough composite bed doesn’t need a liner and is big enough for 4'x8’ construction materials.",
     "rental_price": 180,
     "owned_by_user": false,
     "performance_details": [

@@ -6,14 +6,14 @@ class Api::V1::CarsController < ApplicationController
       @car = current_user.cars.new(car_params)
 
       if @car.save
-        render json: { status: { code: 200, message: 'Success: Car Created Successfully',
-                                 data: car_as_json(@car) } }, status: :created
+        render json: { status: { code: 200, message: 'Success: Car Created Successfully' },
+                       data: car_as_json(@car) }, status: :created
       else
-        render json: { status: { code: 404, message: "Error: Can not create car #{@car.errors}", data: {} } },
+        render json: { status: { code: 404, message: "Error: Can not create car #{@car.errors}" }, data: {} },
                status: :unprocessable_entity
       end
     else
-      render json: { status: { code: 401, message: 'Error: Invalid Token', data: {} } }, status: :unauthorized
+      render json: { status: { code: 401, message: 'Error: Invalid Token' }, data: {} }, status: :unauthorized
     end
   end
 
@@ -29,11 +29,11 @@ class Api::V1::CarsController < ApplicationController
               # render the json
             end
     if @cars.empty?
-      render json: { status: { code: 200, message: 'Success: No Car Available', data: {} } }, status: :ok
+      render json: { status: { code: 200, message: 'Success: No Car Available' }, data: {} }, status: :ok
     else
       render json: {
-        status: { code: 200, message: 'Success: cars data retrieved successfully',
-                  data: cars_as_json(@cars) }
+        status: { code: 200, message: 'Success: cars data retrieved successfully' },
+        data: cars_as_json(@cars)
       }, status: :ok
     end
   end
@@ -42,13 +42,13 @@ class Api::V1::CarsController < ApplicationController
   def show
     @car = Car.find(params[:id])
     render json: {
-      status: { code: 200, message: 'Success: car data retrieved successfully',
-                data: car_as_json(@car) }
+      status: { code: 200, message: 'Success: car data retrieved successfully' },
+      data: car_as_json(@car)
     }, status: :ok
   rescue ActiveRecord::RecordNotFound
     render json: {
-      status: { code: 404, message: 'Error: Car not found',
-                data: {} }
+      status: { code: 404, message: 'Error: Car not found' },
+      data: {}
     }, status: :not_found
   end
 
@@ -59,32 +59,33 @@ class Api::V1::CarsController < ApplicationController
       if @car.user_id == current_user.id
         @car.destroy
         if @car.destroyed?
-          render json: { status: { code: 200, message: 'Success: Car deleted successfully', data: {} } }, status: :ok
+          render json: { status: { code: 200, message: 'Success: Car deleted successfully' }, data: {} }, status: :ok
         else
           render json: {
-            status: { code: 404, message: 'Error: Car Not Deleted', data: {} }
+            status: { code: 404, message: 'Error: Car Not Deleted' }, data: {}
           }, status: :unprocessable_entity
         end
       else
         render json: {
-          status: { code: 401, message: 'Error: User Does not have permission to delete this car', data: {} }
+          status: { code: 401,
+                    message: 'Error: User Does not have permission to delete this car' }, data: {}
         }, status: :unauthorized
       end
     else
       render json: {
-        status: { code: 401, message: 'Error: Invalid Token', data: {} }
+        status: { code: 401, message: 'Error: Invalid Token' }, data: {}
       }, status: :unauthorized
     end
   rescue ActiveRecord::RecordNotFound
     render json: {
-      status: { code: 404, message: 'Error: Car Not Found', data: {} }
+      status: { code: 404, message: 'Error: Car Not Found' }, data: {}
     }, status: :not_found
   end
 
   private
 
   def car_params
-    params.require(:car).permit(
+    params.permit(
       :car_model_name,
       :image,
       :description,
@@ -96,13 +97,13 @@ class Api::V1::CarsController < ApplicationController
   def car_as_json(car)
     {
       id: car.id,
-      user_id: car.user_id,
-      car_model_name: car.car_model_name,
+      userId: car.user_id,
+      carModelName: car.car_model_name,
       image: car.image,
       description: car.description,
-      rental_price: car.rental_price,
-      owned_by_user: car.owned_by_user,
-      performance_details: car.performance_details.pluck(:detail)
+      rentalPrice: car.rental_price,
+      ownedByUser: car.owned_by_user,
+      performanceDetails: car.performance_details.pluck(:detail)
     }
   end
 

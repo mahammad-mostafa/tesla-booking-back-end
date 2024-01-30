@@ -7,12 +7,12 @@ class Api::V1::ReservationsController < ApplicationController
 
     if @reservation
       render json: {
-        status: { code: 200, message: 'Success: Reservation data retrieved successfully',
-                  data: reservation_as_json(@reservation) }
+        status: { code: 200, message: 'Success: Reservation data retrieved successfully' },
+        data: reservation_as_json(@reservation)
       }, status: :ok
     else
       render json: {
-        status: { code: 404, message: 'Error: Reservation not found', data: {} }
+        status: { code: 404, message: 'Error: Reservation not found' }, data: {}
       }, status: :not_found
     end
   end
@@ -23,18 +23,20 @@ class Api::V1::ReservationsController < ApplicationController
 
       if @reservations.empty?
         render json: {
-          status: { code: 200, message: 'Success: No reservations found', data: {} }
+          status: { code: 200, message: 'Success: No reservations found' }, data: {}
         }, status: :ok
       else
         render json: {
-          status: { code: 200, message: 'Success: Reservations data retrieved successfully',
-                    data: reservations_as_json(@reservations) }
+          status: { code: 200, message: 'Success: Reservations data retrieved successfully' },
+          data: reservations_as_json(@reservations)
         }, status: :ok
       end
     else
       render json: {
-        status: { code: 400, message: 'Error: Invalid token', data: {} }
-      }, status: :ok
+               status: { code: 400, message: 'Error: Invalid token' },
+               data: {}
+             },
+             status: :ok
     end
   end
 
@@ -51,18 +53,18 @@ class Api::V1::ReservationsController < ApplicationController
 
       if @reservation.save
         render json: {
-          status: { code: 200, message: 'Success: reservation created successfully',
-                    data: reservation_as_json(@reservation) }
+          status: { code: 200, message: 'Success: reservation created successfully' },
+          data: reservation_as_json(@reservation)
         }, status: :created
       else
         render json: {
-          status: { code: 422, message: 'Error: unable to create reservation',
-                    errors: @reservation.errors.full_messages }
+          status: { code: 422, message: 'Error: unable to create reservation' },
+          errors: @reservation.errors.full_messages
         }, status: :unprocessable_entity
       end
     else
       render json: {
-        status: { code: 400, message: 'Error: Invalid token', data: {} }
+        status: { code: 400, message: 'Error: Invalid token' }, data: {}
       }, status: :unprocessable_entity
     end
   end
@@ -80,14 +82,14 @@ class Api::V1::ReservationsController < ApplicationController
   end
 
   def reservation_params
-    params.require(:reservation).permit(:date, :location)
+    params.permit(:date, :location)
   end
 
   def reservation_as_json(reservation)
     {
       id: reservation.id,
-      user_id: reservation.user_id,
-      car_id: reservation.car_id,
+      userId: reservation.user_id,
+      carId: reservation.car_id,
       date: reservation.date,
       location: reservation.location
     }
