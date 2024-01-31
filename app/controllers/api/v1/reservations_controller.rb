@@ -3,17 +3,25 @@ class Api::V1::ReservationsController < ApplicationController
   before_action :set_car, only: [:create]
 
   def show
-    @reservation = current_user.reservations.find_by(id: params[:id])
+    if current_user
+      @reservation = current_user.reservations.find_by(id: params[:id])
 
-    if @reservation
-      render json: {
-        status: { code: 200, message: 'Success: Reservation data retrieved successfully' },
-        data: reservation_as_json(@reservation)
-      }, status: :ok
+      if @reservation
+        render json: {
+          status: { code: 200, message: 'Success: Reservation data retrieved successfully' },
+          data: reservation_as_json(@reservation)
+        }, status: :ok
+      else
+        render json: {
+          status: { code: 404, message: 'Error: Reservation not found' }, data: {}
+        }, status: :not_found
+      end
     else
       render json: {
-        status: { code: 404, message: 'Error: Reservation not found' }, data: {}
-      }, status: :not_found
+               status: { code: 400, message: 'Error: Invalid token' },
+               data: {}
+             },
+             status: :ok
     end
   end
 
@@ -90,6 +98,9 @@ class Api::V1::ReservationsController < ApplicationController
       id: reservation.id,
       userId: reservation.user_id,
       carId: reservation.car_id,
+      image: reservation.car.image,
+      carModelName: reservation.car.car_model_name,
+      rentalPrice: reservation.car.rental_price,
       date: reservation.date,
       location: reservation.location
     }
