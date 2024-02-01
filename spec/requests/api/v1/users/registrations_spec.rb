@@ -1,9 +1,7 @@
 require 'swagger_helper'
 
 RSpec.describe 'api/v1/users/registrations', type: :request do
-
   path '/api/v1/users/' do
-
     post('new user registration') do
       consumes 'application/json'
       parameter name: :user, in: :body, schema: {
@@ -16,7 +14,6 @@ RSpec.describe 'api/v1/users/registrations', type: :request do
         required: %i[email password user_name]
       }
       response(200, 'successful') do
-
         after do |example|
           example.metadata[:response][:content] = {
             'application/json' => {
