@@ -7,14 +7,48 @@ paths:
   "/api/v1/cars":
     get:
       summary: list cars
+      security:
+      - Bearer: {}
       responses:
         '200':
           description: successful
     post:
       summary: create car
+      security:
+      - Bearer: {}
+      parameters: []
       responses:
         '200':
           description: successful
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                car_model_name:
+                  type: string
+                image:
+                  type: string
+                description:
+                  type: string
+                rental_price:
+                  type: number
+                performance_details_attributes:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      detail:
+                        type: string
+                    required:
+                    - detail
+              required:
+              - car_model_name
+              - image
+              - description
+              - rental_price
+              - performance_details_attributes
   "/api/v1/cars/{id}":
     parameters:
     - name: id
@@ -30,6 +64,15 @@ paths:
           description: successful
     delete:
       summary: delete car
+      parameters:
+      - name: id
+        in: path
+        description: id
+        required: true
+        schema:
+          type: string
+      security:
+      - Bearer: {}
       responses:
         '200':
           description: successful
@@ -57,6 +100,13 @@ paths:
       responses:
         '200':
           description: successful
+components:
+  securitySchemes:
+    Bearer:
+      type: apiKey
+      name: Authorization
+      in: header
+      description: Your Bearer token
 servers:
 - url: http://{defaultHost}
   variables:
