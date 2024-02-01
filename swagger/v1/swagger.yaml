@@ -79,14 +79,36 @@ paths:
   "/api/v1/reservations":
     get:
       summary: list reservations
+      security:
+      - Bearer: {}
       responses:
         '200':
           description: successful
     post:
       summary: create reservation
+      security:
+      - Bearer: {}
+      parameters: []
       responses:
         '200':
           description: successful
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                car_id:
+                  type: integer
+                location:
+                  type: string
+                date:
+                  type: string
+                  format: date
+              required:
+              - car_id
+              - location
+              - date
   "/api/v1/reservations/{id}":
     parameters:
     - name: id
@@ -97,6 +119,8 @@ paths:
         type: string
     get:
       summary: show reservation
+      security:
+      - Bearer: {}
       responses:
         '200':
           description: successful

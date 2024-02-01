@@ -41,7 +41,7 @@ RSpec.describe 'api/v1/cars', type: :request do
             }
           }
         },
-        required: [:car_model_name, :image, :description, :rental_price, :performance_details_attributes]
+        required: %i[car_model_name image description rental_price performance_details_attributes]
       }
 
       # Describe the request headers
@@ -81,7 +81,7 @@ RSpec.describe 'api/v1/cars', type: :request do
       parameter name: 'id', in: :path, type: :string, description: 'id'
       security [Bearer: {}]
       response(200, 'successful') do
-       after do |example|
+        after do |example|
           example.metadata[:response][:content] = {
             'application/json' => {
               example: JSON.parse(response.body, symbolize_names: true)
