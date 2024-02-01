@@ -147,6 +147,34 @@ paths:
               - email
               - password
               - user_name
+  "/api/v1/users/sign_in":
+    post:
+      summary: create user session
+      parameters: []
+      responses:
+        '200':
+          description: successful
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+              required:
+              - email
+              - password
+  "/api/v1/users/sign_out":
+    delete:
+      summary: delete user session
+      security:
+      - Bearer: {}
+      responses:
+        '200':
+          description: successful
 components:
   securitySchemes:
     Bearer:
