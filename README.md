@@ -28,6 +28,18 @@
 
 **Tesla Booking Backend** is the rails only api app for the full stack tesla booking app. It provides all the endpoints for the frontend to consume. Here the logic for the app is implemented.
 
+- [Tesla Booking Frontend Kanban Board](https://github.com/users/ITurres/projects/6/views/1)
+<img src="./Backend.png">
+- [Tesla Booking Backend Kanban Board](https://github.com/users/mahammad-mostafa/projects/4)
+<img src="./Frontend.png">
+
+**Team Members**
+- Demes Abera Ameneshoa - GitHub: [@demesameneshoa](https://github.com/demesameneshoa)
+- Fatema Nazari [@78fatemanazari](https://github.com/78fatemanazari)
+- Arthur Emanuel G. Iturres [@ITurres](https://github.com/ITurres)
+- Mahammad Mostafa [@mahammad-mostafa](https://github.com/mahammad-mostafa)
+
+
 **ER Diagram**
 The  API is designed as per the ER Diagram shown below which dictates the association of models and their relationships.
 
