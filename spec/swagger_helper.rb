@@ -22,14 +22,14 @@ RSpec.configure do |config|
       paths: {},
       components: {
         securitySchemes: {
-         Bearer: {
-          type: :apiKey,
-          name: 'Authorization',
-          in: :header,
-          description: 'Your Bearer token'
-         }
+          Bearer: {
+            type: :apiKey,
+            name: 'Authorization',
+            in: :header,
+            description: 'Your Bearer token'
+          }
         }
-       },
+      },
       servers: [
         {
           url: 'https://{defaultHost}',

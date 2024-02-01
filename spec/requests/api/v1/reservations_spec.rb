@@ -25,7 +25,7 @@ RSpec.describe 'api/v1/reservations', type: :request do
         properties: {
           car_id: { type: :integer }, # Adjust the type as needed
           location: { type: :string },
-          date: { type: :string, format: :date }, # Assuming date is a string in a specific format
+          date: { type: :string, format: :date } # Assuming date is a string in a specific format
         },
         required: %i[car_id location date]
       }
