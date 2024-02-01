@@ -20,6 +20,16 @@ RSpec.configure do |config|
         version: 'v1'
       },
       paths: {},
+      components: {
+        securitySchemes: {
+         Bearer: {
+          type: :apiKey,
+          name: 'Authorization',
+          in: :header,
+          description: 'Your Bearer token'
+         }
+        }
+       },
       servers: [
         {
           url: 'https://{defaultHost}',
