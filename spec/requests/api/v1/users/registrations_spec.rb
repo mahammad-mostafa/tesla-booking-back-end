@@ -7,9 +7,9 @@ RSpec.describe 'api/v1/users/registrations', type: :request do
       parameter name: :user, in: :body, schema: {
         type: :object,
         properties: {
+          user_name: { type: :string },
           email: { type: :string },
-          password: { type: :string },
-          user_name: { type: :string }
+          password: { type: :string }
         },
         required: %i[email password user_name]
       }

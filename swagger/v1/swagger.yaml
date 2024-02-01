@@ -137,11 +137,11 @@ paths:
             schema:
               type: object
               properties:
+                user_name:
+                  type: string
                 email:
                   type: string
                 password:
-                  type: string
-                user_name:
                   type: string
               required:
               - email
@@ -183,7 +183,7 @@ components:
       in: header
       description: Your Bearer token
 servers:
-  - url: http://{defaultHost}
-    variables:
-      defaultHost:
-        default: 127.0.0.1:3000
+- url: https://{defaultHost}
+  variables:
+    defaultHost:
+      default: www.example.com
