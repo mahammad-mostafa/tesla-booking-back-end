@@ -124,6 +124,29 @@ paths:
       responses:
         '200':
           description: successful
+  "/api/v1/users/":
+    post:
+      summary: new user registration
+      parameters: []
+      responses:
+        '200':
+          description: successful
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+                user_name:
+                  type: string
+              required:
+              - email
+              - password
+              - user_name
 components:
   securitySchemes:
     Bearer:
