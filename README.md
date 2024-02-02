@@ -135,6 +135,8 @@ Install this project with:
 ```sh
   cd tesla-booking-back-end
   bundle install
+  Remove config/master.key and config/credentials.yml.enc if they exist.
+  Run in the terminal: EDITOR=code rails credentials:edit and close the editor that opens. /This command will create a new master.key and credentials.yml.enc if they do not exist./
   rails db:create - create the database
   rails db:migrate - run pending migrations for the current environment.
   rails db:seed 
