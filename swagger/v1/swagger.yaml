@@ -1,0 +1,189 @@
+---
+openapi: 3.0.1
+info:
+  title: API V1
+  version: v1
+paths:
+  "/api/v1/cars":
+    get:
+      summary: list cars
+      security:
+      - Bearer: {}
+      responses:
+        '200':
+          description: successful
+    post:
+      summary: create car
+      security:
+      - Bearer: {}
+      parameters: []
+      responses:
+        '200':
+          description: successful
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                car_model_name:
+                  type: string
+                image:
+                  type: string
+                description:
+                  type: string
+                rental_price:
+                  type: number
+                performance_details_attributes:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      detail:
+                        type: string
+                    required:
+                    - detail
+              required:
+              - car_model_name
+              - image
+              - description
+              - rental_price
+              - performance_details_attributes
+  "/api/v1/cars/{id}":
+    parameters:
+    - name: id
+      in: path
+      description: id
+      required: true
+      schema:
+        type: string
+    get:
+      summary: show car
+      responses:
+        '200':
+          description: successful
+    delete:
+      summary: delete car
+      parameters:
+      - name: id
+        in: path
+        description: id
+        required: true
+        schema:
+          type: string
+      security:
+      - Bearer: {}
+      responses:
+        '200':
+          description: successful
+  "/api/v1/reservations":
+    get:
+      summary: list reservations
+      security:
+      - Bearer: {}
+      responses:
+        '200':
+          description: successful
+    post:
+      summary: create reservation
+      security:
+      - Bearer: {}
+      parameters: []
+      responses:
+        '200':
+          description: successful
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                car_id:
+                  type: integer
+                location:
+                  type: string
+                date:
+                  type: string
+                  format: date
+              required:
+              - car_id
+              - location
+              - date
+  "/api/v1/reservations/{id}":
+    parameters:
+    - name: id
+      in: path
+      description: id
+      required: true
+      schema:
+        type: string
+    get:
+      summary: show reservation
+      security:
+      - Bearer: {}
+      responses:
+        '200':
+          description: successful
+  "/api/v1/users/":
+    post:
+      summary: new user registration
+      parameters: []
+      responses:
+        '200':
+          description: successful
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_name:
+                  type: string
+                email:
+                  type: string
+                password:
+                  type: string
+              required:
+              - email
+              - password
+              - user_name
+  "/api/v1/users/sign_in":
+    post:
+      summary: create user session
+      parameters: []
+      responses:
+        '200':
+          description: successful
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+              required:
+              - email
+              - password
+  "/api/v1/users/sign_out":
+    delete:
+      summary: delete user session
+      security:
+      - Bearer: {}
+      responses:
+        '200':
+          description: successful
+components:
+  securitySchemes:
+    Bearer:
+      type: apiKey
+      name: Authorization
+      in: header
+      description: Your Bearer token
+servers:
+- url: https://{defaultHost}
+  variables:
+    defaultHost:
+      default: tesla-booking-api-x2xe.onrender.com
